@@ -1,0 +1,13 @@
+.main_container {
+    height: 120vh;
+    width: 100%;
+    justify-items: center;
+    align-content: start;
+    background-color: var(--background-color);
+}
+
+.circle {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
