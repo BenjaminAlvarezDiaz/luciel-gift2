@@ -61,6 +61,7 @@
 .translator_text {
     border: 2px solid var(--grey2);
     background-color: var(--transparent);
+    color: var(--grey5);
 }
 
 .translator_result {
@@ -77,6 +78,7 @@
     padding: 5px 10px;
     border: none;
     background-color: var(--secondary);
+    color: var(--grey5);
 }
 
 @media (max-width: 1200px) {
@@ -86,7 +88,18 @@
 }
 
 @media (max-width: 768px) {
+    .spanish_to_okak {
+        padding-right: 10px;
+    }
+
     .textarea {
+        max-width: 300px;
         min-height: 250px;
+    }
+}
+
+@media (max-width: 375px) {
+    .textarea {
+        min-height: 200px;
     }
 }

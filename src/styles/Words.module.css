@@ -38,6 +38,7 @@
     min-height: 390px;
     min-width: 100px;
     box-sizing: border-box;
+    color: var(--grey5);
 }
 
 .generated_button {
@@ -48,4 +49,17 @@
     padding: 5px 10px;
     border: none;
     background-color: var(--secondary);
+    color: var(--grey5);
+}
+
+@media (max-width: 768px) {
+    .generated_words {
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 375px) {
+    .generated_words {
+        min-height: 420px;
+    }
 }

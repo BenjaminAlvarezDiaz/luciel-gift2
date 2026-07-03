@@ -198,7 +198,7 @@ function okakize(word) {
 		.replaceAll("o", "ö")
 		.replaceAll("u", "ü");
 
-		
+	let result;
 
 	if (x.length <= 2) {
 		return (
@@ -207,39 +207,28 @@ function okakize(word) {
 		);
 	}
 
-	if (x.length <= 5) {
+	else if (x.length <= 5) {
 		return (
-			x.charAt(0).toUpperCase() +
-			x.slice(1) +
-			randomItem(SHORT_SUFFIXES)
+			x + randomItem(SHORT_SUFFIXES)
 		);
 	}
 
-	if (x.length <= 6) {
-		return (
-			x.charAt(0).toUpperCase() +
-			x.slice(1) +
-			randomItem(SUFFIXES)
-		);
+	else if (x.length <= 6) {
+		result =
+			x + randomItem(SUFFIXES)
 	}
 
-	if (x.length >= 7) {
-		return (
-		x.charAt(0).toUpperCase() +
-		x.slice(1) +
-		randomItem(SUFFIXES)
-		);
+	else {
+		const root1 = randomItem(ROOTS);
+		const root2 = randomItem(ROOTS);
+
+		result =
+			root1 +
+			root2 +
+			randomItem(SUFFIXES);
 	}
 
-	const root1 = randomItem(ROOTS);
-	const root2 = randomItem(ROOTS);
-
-	return (
-		root1.charAt(0).toUpperCase() +
-		root1.slice(1) +
-		root2 +
-		randomItem(SUFFIXES)
-	);
+	return preserveCase(word, result);
 }
 
 function preserveCase(original, translated) {
