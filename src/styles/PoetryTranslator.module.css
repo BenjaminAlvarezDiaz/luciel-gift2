@@ -106,6 +106,6 @@
 
 @media (max-width: 375px) {
     .textarea {
-        min-height: 180px;
+        min-height: 160px;
     }
 }
