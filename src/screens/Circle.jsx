@@ -264,7 +264,7 @@ function Circle (){
     return (
         <div className={styles.main_container}>
             <div className={styles.circle}>
-                <div className={styles.circle_catch}>Intenta atrapar la pelotita</div>
+                <div className={styles.circle_catch}>Atrapa la pelotita</div>
                 <canvas 
                     ref={canvasRef}
                     className={styles.animation}
