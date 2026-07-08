@@ -62,7 +62,7 @@ function Circle (){
 
         }
 
-        function getMousePosition(e){
+        function getPointerPosition(e){
 
             const rect = canvas.getBoundingClientRect();
 
@@ -73,9 +73,13 @@ function Circle (){
 
         }
 
-        canvas.addEventListener("mousedown",(e)=>{
+        canvas.addEventListener("pointerdown",(e)=>{
 
-            const mouse = getMousePosition(e);
+            e.preventDefault();
+
+            canvas.setPointerCapture(e.pointerId);
+
+            const mouse = getPointerPosition(e);
 
             const dx = mouse.x - ball.x;
             const dy = mouse.y - ball.y;
@@ -87,9 +91,6 @@ function Circle (){
                 lastMouseX = mouse.x;
                 lastMouseY = mouse.y;
 
-                lastBallX = ball.x;
-                lastBallY = ball.y;
-
                 ball.vx = 0;
                 ball.vy = 0;
 
@@ -97,11 +98,11 @@ function Circle (){
 
         });
 
-        canvas.addEventListener("mousemove",(e)=>{
+        canvas.addEventListener("pointermove",(e)=>{
 
             if(!dragging) return;
 
-            const mouse = getMousePosition(e);
+            const mouse = getPointerPosition(e);
 
             const dx = mouse.x-centerX;
             const dy = mouse.y-centerY;
@@ -146,7 +147,7 @@ function Circle (){
 
         });
 
-        window.addEventListener("mouseup",()=>{
+        window.addEventListener("pointerup",()=>{
 
             dragging=false;
 
