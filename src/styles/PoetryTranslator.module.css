@@ -25,6 +25,7 @@
 }
 
 .translator_languages {
+    font-weight: 500;
     border: none;
     border-radius: 10px;
     padding: 5px 10px;

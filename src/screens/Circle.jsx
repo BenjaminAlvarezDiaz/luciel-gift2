@@ -34,7 +34,19 @@ function Circle (){
 
         const gravity = .18;
 
+        const bounce = 0.92;
+        const minSpeed = 2;
+        const maxSpeed = 19;
+
         let animationId;
+
+        let dragging = false;
+
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+
+        let lastBallX = 0;
+        let lastBallY = 0;
 
         function resetBall(){
 
@@ -50,14 +62,108 @@ function Circle (){
 
         }
 
+        function getMousePosition(e){
+
+            const rect = canvas.getBoundingClientRect();
+
+            return {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+
+        }
+
+        canvas.addEventListener("mousedown",(e)=>{
+
+            const mouse = getMousePosition(e);
+
+            const dx = mouse.x - ball.x;
+            const dy = mouse.y - ball.y;
+
+            if(Math.sqrt(dx*dx+dy*dy)<=ball.radius){
+
+                dragging = true;
+
+                lastMouseX = mouse.x;
+                lastMouseY = mouse.y;
+
+                lastBallX = ball.x;
+                lastBallY = ball.y;
+
+                ball.vx = 0;
+                ball.vy = 0;
+
+            }
+
+        });
+
+        canvas.addEventListener("mousemove",(e)=>{
+
+            if(!dragging) return;
+
+            const mouse = getMousePosition(e);
+
+            const dx = mouse.x-centerX;
+            const dy = mouse.y-centerY;
+
+            const distance = Math.sqrt(dx*dx+dy*dy);
+
+            if(distance > borderRadius-ball.radius){
+
+                const angle = Math.atan2(dy,dx);
+
+                ball.x =
+                    centerX +
+                    Math.cos(angle)*
+                    (borderRadius-ball.radius);
+
+                ball.y =
+                    centerY +
+                    Math.sin(angle)*
+                    (borderRadius-ball.radius);
+
+            }else{
+
+                ball.x = mouse.x;
+                ball.y = mouse.y;
+
+            }
+
+            ball.vx = mouse.x - lastMouseX;
+            ball.vy = mouse.y - lastMouseY;
+
+            const speed = Math.sqrt(ball.vx**2 + ball.vy**2);
+
+            if(speed > maxSpeed){
+
+                ball.vx = ball.vx / speed * maxSpeed;
+                ball.vy = ball.vy / speed * maxSpeed;
+
+            }
+
+            lastMouseX = mouse.x;
+            lastMouseY = mouse.y;
+
+        });
+
+        window.addEventListener("mouseup",()=>{
+
+            dragging=false;
+
+        });
+
         function update(){
 
             ctx.clearRect(0,0,300,300);
 
-            ball.vy += gravity;
+            if(!dragging){
 
-            ball.x += ball.vx;
-            ball.y += ball.vy;
+                ball.vy += gravity;
+
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+
+            }
 
             const dx = ball.x-centerX;
             const dy = ball.y-centerY;
@@ -74,7 +180,29 @@ function Circle (){
                     ball.vy * ny;
 
                 ball.vx -= 2 * dot * nx;
-                ball.vy -= 2 * dot *  ny;
+                ball.vy -= 2 * dot * ny;
+
+                ball.vx *= bounce;
+                ball.vy *= bounce;
+
+                const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+
+                if(speed < minSpeed){
+
+                    const factor = minSpeed / (speed || 1);
+
+                    ball.vx *= factor;
+                    ball.vy *= factor;
+
+                }
+
+                const horizontalMin = 3;
+
+                if(Math.abs(ball.vx) < horizontalMin){
+
+                    ball.vx = Math.sign(ball.vx || 1) * horizontalMin;
+
+                }
 
                 const overlap =
                     distance + ball.radius - borderRadius;
@@ -136,6 +264,7 @@ function Circle (){
     return (
         <div className={styles.main_container}>
             <div className={styles.circle}>
+                <div className={styles.circle_catch}>Intenta atrapar la pelotita</div>
                 <canvas 
                     ref={canvasRef}
                     className={styles.animation}
