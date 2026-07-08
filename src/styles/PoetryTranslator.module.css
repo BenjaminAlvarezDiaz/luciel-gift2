@@ -104,6 +104,12 @@
     }
 }
 
+@media (max-width: 615px) {
+    .textarea {
+        min-height: 170px;
+    }
+}
+
 @media (max-width: 375px) {
     .textarea {
         min-height: 160px;
